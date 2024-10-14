@@ -49,7 +49,7 @@ python3 -m pip install -U 'git+https://github.com/mmguero/github-download-counts
 
 ## Prerequisites
 
-[github-download-counts](./src/github-download-counts/github-download-counts.py) requires:
+[github-download-counts](./src/github_download_counts/github_download_counts.py) requires:
 
 * Python 3
 * [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
