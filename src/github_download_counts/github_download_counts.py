@@ -13,7 +13,6 @@ import sys
 
 from collections import defaultdict
 from dateparser import parse as ParseDate
-from datetime import datetime
 from tzlocal import get_localzone
 from bs4 import BeautifulSoup
 
@@ -53,7 +52,7 @@ def main():
         '-t',
         '--token',
         dest='githubToken',
-        help=f'GitHub API token',
+        help='GitHub API token',
         metavar='<str>',
         type=str,
         default=os.getenv('GITHUB_TOKEN', os.getenv('GITHUB_OAUTH_TOKEN', '')),
@@ -61,7 +60,7 @@ def main():
     parser.add_argument(
         '--token-file',
         dest='githubTokenFile',
-        help=f'GitHub API token (read from filename)',
+        help='GitHub API token (read from filename)',
         metavar='<str>',
         type=str,
         default=os.getenv('GITHUB_TOKEN_FILE', os.getenv('GITHUB_OAUTH_TOKEN_FILE', '')),
@@ -198,10 +197,14 @@ def main():
                 # loop over the releases for this repo, examining those in the search time frame
                 if assetRegexes:
                     for release in repo.releases():
-                        if dateFrom <= release.published_at <= dateTo and (
-                            (
-                                (not releaseRegexes)
-                                or any([v.match(release.tag_name) for k, v in releaseRegexes.items()])
+                        if (
+                            release.published_at
+                            and (dateFrom <= release.published_at <= dateTo)
+                            and (
+                                (
+                                    (not releaseRegexes)
+                                    or any([v.match(release.tag_name) for k, v in releaseRegexes.items()])
+                                )
                             )
                         ):
                             logging.debug(f'{repo.full_name} {release.tag_name} at {release.published_at}')
